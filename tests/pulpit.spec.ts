@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Send transfer", () => {
-  test("internal transfer", async ({ page }) => {
+  test.only("internal transfer", async ({ page }) => {
     const url = "https://demo-bank.vercel.app";
     await page.goto(url);
     await page.getByTestId("login-input").click;
@@ -20,13 +20,13 @@ test.describe("Send transfer", () => {
 
     await page.getByTestId("close-button").click();
     const expectedString =
-      "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny Bug";
+      "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny BUG";
     await expect(page.getByTestId("message-text")).toHaveText(expectedString);
   });
 });
 
 test.describe("Mobile top-up", () => {
-  test.only("Successful mobile top-up", async ({ page }) => {
+  test("Successful mobile top-up", async ({ page }) => {
     const url = "https://demo-bank.vercel.app";
     await page.goto(url);
     await page.getByTestId("login-input").click;
@@ -46,7 +46,7 @@ test.describe("Mobile top-up", () => {
     await page.getByRole("button", { name: "doładuj telefon" }).click();
 
     await page.getByRole("button", { name: "ok" }).click();
-    const expectedString = "Doładowanie wykonane! 50,00PLN na numer 500 xxx xx";
+    const expectedString = "Doładowanie wykonane! 50,00PLN na numer 500 xxx xxx";
     await expect(page.getByTestId("message-text")).toHaveText(expectedString);
     await expect(page.getByTestId("message-text")).toContainText(
       "Doładowanie wykonane!",

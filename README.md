@@ -19,3 +19,5 @@
   `npx playwright test --headed`
 - viewing report  
   `npx playwright show-report`
+- run Trace Viewer on zip file
+  `npx playwright show-trace trace.zip`
