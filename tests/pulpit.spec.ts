@@ -1,55 +1,58 @@
-import {test, expect } from '@playwright/test'
+import { test, expect } from "@playwright/test";
 
-test.describe('Send transfer', () => {
-    test('internal transfer', async ({page}) => {
-        await page.goto('https://demo-bank.vercel.app')
-        await page.getByTestId('login-input').click
-        await page.getByTestId('login-input').fill('random string username')
-        await page.getByTestId('password-input').click
-        await page.getByTestId('password-input').fill('random string password')
-        await page.getByTestId('login-button').click()
-        await page.getByTestId('user-name').click()
+test.describe("Send transfer", () => {
+  test("internal transfer", async ({ page }) => {
+    const url = "https://demo-bank.vercel.app";
+    await page.goto(url);
+    await page.getByTestId("login-input").click;
+    await page.getByTestId("login-input").fill("random string username");
+    await page.getByTestId("password-input").click;
+    await page.getByTestId("password-input").fill("random string password");
+    await page.getByTestId("login-button").click();
+    await page.getByTestId("user-name").click();
 
-        await page.waitForLoadState("domcontentloaded")
+    await page.waitForLoadState("domcontentloaded");
 
-        await page.locator('#widget_1_transfer_receiver').selectOption('2')
-        await page.locator('#widget_1_transfer_amount').fill('150')
-        await page.locator('#widget_1_transfer_title').fill('Przelew wewnętrzny')
-        await page.locator('#execute_btn').click()
+    await page.locator("#widget_1_transfer_receiver").selectOption("2");
+    await page.locator("#widget_1_transfer_amount").fill("150");
+    await page.locator("#widget_1_transfer_title").fill("Przelew wewnętrzny");
+    await page.locator("#execute_btn").click();
 
-        await page.getByTestId('close-button').click()
-        await expect(page.getByTestId('message-text')).toHaveText('Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny')
+    await page.getByTestId("close-button").click();
+    const expectedString =
+      "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny Bug";
+    await expect(page.getByTestId("message-text")).toHaveText(expectedString);
+  });
+});
 
-    })
-})
+test.describe("Mobile top-up", () => {
+  test.only("Successful mobile top-up", async ({ page }) => {
+    const url = "https://demo-bank.vercel.app";
+    await page.goto(url);
+    await page.getByTestId("login-input").click;
+    await page.getByTestId("login-input").fill("random string username");
+    await page.getByTestId("password-input").click;
+    await page.getByTestId("password-input").fill("random string password");
+    await page.getByTestId("login-button").click();
+    await page.getByTestId("user-name").click();
 
-test.describe('Mobile top-up', () => {
-    test.only('Successful mobile top-up', async ({page}) =>{
-        await page.goto('https://demo-bank.vercel.app')
-        await page.getByTestId('login-input').click
-        await page.getByTestId('login-input').fill('random string username')
-        await page.getByTestId('password-input').click
-        await page.getByTestId('password-input').fill('random string password')
-        await page.getByTestId('login-button').click()
-        await page.getByTestId('user-name').click()
+    await page.waitForLoadState("domcontentloaded");
 
-        await page.waitForLoadState("domcontentloaded")
+    await page.locator("#widget_1_topup_receiver").selectOption("500 xxx xxx");
+    await page.locator("#widget_1_topup_amount").click();
+    await page.locator("#widget_1_topup_amount").fill("50");
 
-        await page.locator('#widget_1_topup_receiver').selectOption('500 xxx xxx')
-        await page.locator('#widget_1_topup_amount').click()
-        await page.locator('#widget_1_topup_amount').fill('50')
+    await page.locator("#uniform-widget_1_topup_agreement").click();
+    await page.getByRole("button", { name: "doładuj telefon" }).click();
 
-        await page.locator('#uniform-widget_1_topup_agreement').click()
-        await page.getByRole('button', {name: 'doładuj telefon'}).click()
-        
-        await page.getByRole('button', {name: 'ok'}).click()
-        await expect(page.getByTestId('message-text')).toHaveText('Doładowanie wykonane! 50,00PLN na numer 500 xxx xxx')
-        await expect(page.getByTestId('message-text')).toContainText('Doładowanie wykonane!')
-
-
-
-    })
-})
+    await page.getByRole("button", { name: "ok" }).click();
+    const expectedString = "Doładowanie wykonane! 50,00PLN na numer 500 xxx xx";
+    await expect(page.getByTestId("message-text")).toHaveText(expectedString);
+    await expect(page.getByTestId("message-text")).toContainText(
+      "Doładowanie wykonane!",
+    );
+  });
+});
 
 // // By Role
 // await page.getByRole('button', { name: 'Submit' }).click();
