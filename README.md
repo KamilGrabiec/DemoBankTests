@@ -21,3 +21,27 @@
   `npx playwright show-report`
 - run Trace Viewer on zip file
   `npx playwright show-trace trace.zip`
+
+  ## Playwright selector types
+
+- By Role
+`await page.getByRole('button', { name: 'Submit' }).click();`
+
+- By Text
+`await page.getByText('Welcome').click();`
+
+- By Label
+`await page.getByLabel('Username').fill('JohnDoe');`
+
+- By Placeholder
+`await page.getByPlaceholder('Enter your name').fill('John');`
+
+- By Alt Text
+`await page.getByAltText('Profile picture').click();`
+
+- By Title
+`await page.getByTitle('Close').click();`
+
+- By Test ID
+`await page.getByTestId('submit-button').click();`
+
