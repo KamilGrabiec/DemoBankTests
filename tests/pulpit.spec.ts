@@ -3,14 +3,22 @@ import { test, expect } from "@playwright/test";
 test.describe("Send transfer", () => {
 
   test.beforeEach(async ({page}) => {
-    const url = "https://demo-bank.vercel.app";
-    await page.goto(url);
+    const username = "random string username";
+    const password = "random string password";
+ 
+    await page.goto('/');
+    await page.getByTestId("login-input").click;
+    await page.getByTestId("login-input").fill(username);
+    await page.getByTestId("password-input").click;
+    await page.getByTestId("password-input").fill(password);
+    await page.getByTestId("login-button").click();
+    await page.getByTestId("user-name").click();
+  
+    await page.waitForLoadState("domcontentloaded");
   })
 
   test("internal transfer", async ({ page }) => {
     //Arrange
-    const username = "random string username";
-    const password = "random string password";
     const transferReceiver = "2";
     const transferAmount = "150";
     const transferTitle = "Przelew wewnętrzny";
@@ -18,15 +26,6 @@ test.describe("Send transfer", () => {
       "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny";
 
     // Act  
-    await page.getByTestId("login-input").click;
-    await page.getByTestId("login-input").fill(username);
-    await page.getByTestId("password-input").click;
-    await page.getByTestId("password-input").fill(password);
-    await page.getByTestId("login-button").click();
-    await page.getByTestId("user-name").click();
-
-    await page.waitForLoadState("domcontentloaded");
-
     await page.locator("#widget_1_transfer_receiver").selectOption(transferReceiver);
     await page.locator("#widget_1_transfer_amount").fill(transferAmount);
     await page.locator("#widget_1_transfer_title").fill(transferTitle);
@@ -40,22 +39,11 @@ test.describe("Send transfer", () => {
   
   test("Successful mobile top-up", async ({ page }) => {
     // Arrange
-    const username = "random string username";
-    const password = "random string password";
     const topUpOption = "500 xxx xxx";
     const topUpAmount = "50";
     const expectedTopUpMessage = "Doładowanie wykonane! 50,00PLN na numer 500 xxx xxx";
     
-    // Act
-    await page.getByTestId("login-input").click;
-    await page.getByTestId("login-input").fill(username);
-    await page.getByTestId("password-input").click;
-    await page.getByTestId("password-input").fill(password);
-    await page.getByTestId("login-button").click();
-    await page.getByTestId("user-name").click();
-    
-    await page.waitForLoadState("domcontentloaded");
-    
+    // Act    
     await page.locator("#widget_1_topup_receiver").selectOption(topUpOption);
     await page.locator("#widget_1_topup_amount").click();
     await page.locator("#widget_1_topup_amount").fill(topUpAmount);
