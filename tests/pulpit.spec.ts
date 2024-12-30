@@ -55,5 +55,27 @@ test.describe("Send transfer", () => {
     // Assert
     await expect(page.getByTestId("message-text")).toHaveText(expectedTopUpMessage);
   });
+
+  test("Correct balance after successful mobile top-up", async ({ page }) => {
+    // Arrange
+    const topUpOption = "500 xxx xxx";
+    const topUpAmount = "50";
+    const expectedTopUpMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpOption}`;
+    const initialBalance = await page.locator("#money_value").innerText()
+    const expectedBalance = Number(initialBalance) - Number(topUpAmount)
+    
+    // Act    
+    await page.locator("#widget_1_topup_receiver").selectOption(topUpOption);
+    await page.locator("#widget_1_topup_amount").click();
+    await page.locator("#widget_1_topup_amount").fill(topUpAmount);
+
+    await page.locator("#uniform-widget_1_topup_agreement").click();
+    await page.getByRole("button", { name: "doładuj telefon" }).click();
+    
+    await page.getByRole("button", { name: "ok" }).click();
+    // Assert
+    await expect(page.getByTestId("message-text")).toHaveText(expectedTopUpMessage);
+    await expect(page.locator("#money_value")).toHaveText(`${expectedBalance}`)
+  });
 });
 
