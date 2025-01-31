@@ -1,19 +1,16 @@
 import { test, expect } from "@playwright/test";
+import { loginData } from "../test-data/login.data";
+import LoginPage from "../pages/login.page";
 
 test.describe("Send transfer", () => {
 
   test.beforeEach(async ({page}) => {
-    const username = "random string username";
-    const password = "random string password";
- 
-    await page.goto('/');
-    await page.getByTestId("login-input").click;
-    await page.getByTestId("login-input").fill(username);
-    await page.getByTestId("password-input").click;
-    await page.getByTestId("password-input").fill(password);
-    await page.getByTestId("login-button").click();
-    await page.getByTestId("user-name").click();
-  
+    const username = loginData.username
+    const password = loginData.password
+    const loginPage = new LoginPage(page)
+
+    await page.goto('/');    
+    await loginPage.login(username, password)
     await page.waitForLoadState("domcontentloaded");
   })
 
