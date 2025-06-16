@@ -11,13 +11,13 @@ test.describe("Login test", () => {
   
   test("Successfully login with correct credentials", async ({ page }) => {
     // Arrange 
-    const username = loginData.username
-    const password = loginData.password
+    const username = loginData.username;
+    const password = loginData.password;
     const expectedUsername = "Jan Demobankowy";
     
     // Act
-    const loginPage = new LoginPage(page)
-    loginPage.login(username, password)
+    const loginPage = new LoginPage(page);
+    loginPage.login(username, password);
 
     // Assert
     await expect(page.getByTestId("user-name")).toHaveText(expectedUsername);
@@ -26,13 +26,13 @@ test.describe("Login test", () => {
   test("Unsuccessfully login with to short login", async ({ page }) => {
     // Arrange 
     const invalidUsername = "short";
-    const password = loginData.password
+    const password = loginData.password;
     const expectedErrorMessage = "identyfikator ma min. 8 znaków";
 
     // Act
-    const loginPage = new LoginPage(page)
-    await loginPage.loginInput.fill(invalidUsername)
-    await loginPage.passwordInput.fill(password)
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(invalidUsername);
+    await loginPage.passwordInput.fill(password);
 
     // Assert
     await expect(page.getByTestId("error-login-id")).toHaveText(
