@@ -20,28 +20,27 @@
 - viewing report  
   `npx playwright show-report`
 - run Trace Viewer on zip file
-  `npx playwright show-trace trace.zip`
+  `npx playwright show-trace test-results/payment-Payment-tests-simple-payment-chromium/trace.zip`
 
   ## Playwright selector types
 
 - By Role
-`await page.getByRole('button', { name: 'Submit' }).click();`
+  `await page.getByRole('button', { name: 'Submit' }).click();`
 
 - By Text
-`await page.getByText('Welcome').click();`
+  `await page.getByText('Welcome').click();`
 
 - By Label
-`await page.getByLabel('Username').fill('JohnDoe');`
+  `await page.getByLabel('Username').fill('JohnDoe');`
 
 - By Placeholder
-`await page.getByPlaceholder('Enter your name').fill('John');`
+  `await page.getByPlaceholder('Enter your name').fill('John');`
 
 - By Alt Text
-`await page.getByAltText('Profile picture').click();`
+  `await page.getByAltText('Profile picture').click();`
 
 - By Title
-`await page.getByTitle('Close').click();`
+  `await page.getByTitle('Close').click();`
 
 - By Test ID
-`await page.getByTestId('submit-button').click();`
-
+  `await page.getByTestId('submit-button').click();`
