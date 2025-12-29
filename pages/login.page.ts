@@ -11,11 +11,14 @@ export class LoginPage {
     this.confirmButton = this.page.getByTestId("login-button");
   }
 
-  // Here I think I have a case where TypeScript things happends
-  async login(username, password) {
+  async login(username: string, password: string) {
+    await this.fillLogin(username, password);
+    await this.confirmButton.click();
+  }
+
+  async fillLogin(username: string, password: string) {
     await this.loginInput.fill(username);
     await this.passwordInput.fill(password);
-    await this.confirmButton.click();
   }
 }
 

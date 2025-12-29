@@ -25,14 +25,18 @@ export class PulpitPage {
     this.modalCloseButton = this.page.getByTestId("close-button");
   }
 
-  async transfer(transferReceiver, transferAccount, transferTitle) {
+  async transfer(
+    transferReceiver: string,
+    transferAccount: string,
+    transferTitle: string
+  ) {
     await this.transferReceiver.selectOption(transferReceiver);
     await this.transferAmount.fill(transferAccount);
     await this.transferTitle.fill(transferTitle);
     await this.transferButton.click();
   }
 
-  async topUp(topUpReceiver, topUpAmount) {
+  async topUp(topUpReceiver: string, topUpAmount: string) {
     await this.topUpReceiver.selectOption(topUpReceiver);
     await this.topUpAmount.click();
     await this.topUpAmount.fill(topUpAmount);
