@@ -52,7 +52,7 @@ test.describe("Send transfer", () => {
 
     // Assert
     await expect(page.getByTestId("message-text")).toHaveText(
-      expectedTopUpMessage
+      expectedTopUpMessage,
     );
   });
 
@@ -75,7 +75,7 @@ test.describe("Send transfer", () => {
     await page.getByRole("button", { name: "ok" }).click();
     // Assert
     await expect(page.getByTestId("message-text")).toHaveText(
-      expectedTopUpMessage
+      expectedTopUpMessage,
     );
     await expect(page.locator("#money_value")).toHaveText(`${expectedBalance}`);
   });

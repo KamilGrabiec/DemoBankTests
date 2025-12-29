@@ -34,7 +34,7 @@ test.describe("Login test", () => {
 
     // Assert
     await expect(page.getByTestId("error-login-id")).toHaveText(
-      expectedErrorMessage
+      expectedErrorMessage,
     );
   });
 
@@ -52,7 +52,7 @@ test.describe("Login test", () => {
 
     // Assert
     await expect(page.getByTestId("error-login-password")).toHaveText(
-      expectedErrorMessage
+      expectedErrorMessage,
     );
   });
 });
