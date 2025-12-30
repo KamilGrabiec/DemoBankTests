@@ -24,8 +24,8 @@ test.describe("Send transfer", () => {
       "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny";
 
     // Act
-    pulpitPage.transfer(transferReceiver, transferAmount, transferTitle);
-    pulpitPage.closeModal();
+    await pulpitPage.transfer(transferReceiver, transferAmount, transferTitle);
+    await pulpitPage.closeModal();
 
     // Assert
     await expect(page.getByTestId("message-text")).toHaveText(expectedString);
@@ -40,7 +40,7 @@ test.describe("Send transfer", () => {
       "Doładowanie wykonane! 50,00PLN na numer 500 xxx xxx";
 
     // Act
-    pulpitPage.topUp(topUpOption, topUpAmount);
+    await pulpitPage.topUp(topUpOption, topUpAmount);
 
     // Assert
     await expect(page.getByTestId("message-text")).toHaveText(
@@ -58,7 +58,7 @@ test.describe("Send transfer", () => {
     const expectedBalance = Number(initialBalance) - Number(topUpAmount);
 
     // Act
-    pulpitPage.topUp(topUpOption, topUpAmount);
+    await pulpitPage.topUp(topUpOption, topUpAmount);
 
     // Assert
     await expect(page.getByTestId("message-text")).toHaveText(

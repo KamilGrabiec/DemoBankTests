@@ -5,11 +5,11 @@ import { PaymentPage } from "../pages/payment.page";
 
 test.describe("Payment tests", () => {
   test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
     const userId = loginData.username;
     const userPassword = loginData.password;
 
     await page.goto("/");
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.confirmButton.click();
@@ -26,7 +26,11 @@ test.describe("Payment tests", () => {
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
     // Act
-    paymentPage.makeTransfer(transferReceiver, transferAccount, transferAmount);
+    await paymentPage.makeTransfer(
+      transferReceiver,
+      transferAccount,
+      transferAmount
+    );
 
     // Assert
     await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
