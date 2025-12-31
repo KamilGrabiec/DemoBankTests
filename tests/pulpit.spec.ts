@@ -28,7 +28,7 @@ test.describe("Send transfer", () => {
     await pulpitPage.closeModal();
 
     // Assert
-    await expect(page.getByTestId("message-text")).toHaveText(expectedString);
+    await pulpitPage.expectMessageText(expectedString);
   });
 
   test("Successful mobile top-up", async ({ page }) => {
@@ -43,9 +43,7 @@ test.describe("Send transfer", () => {
     await pulpitPage.topUp(topUpOption, topUpAmount);
 
     // Assert
-    await expect(page.getByTestId("message-text")).toHaveText(
-      expectedTopUpMessage
-    );
+    await pulpitPage.expectMessageText(expectedTopUpMessage);
   });
 
   test("Correct balance after successful mobile top-up", async ({ page }) => {
@@ -61,9 +59,7 @@ test.describe("Send transfer", () => {
     await pulpitPage.topUp(topUpOption, topUpAmount);
 
     // Assert
-    await expect(page.getByTestId("message-text")).toHaveText(
-      expectedTopUpMessage
-    );
-    await expect(page.locator("#money_value")).toHaveText(`${expectedBalance}`);
+    await pulpitPage.expectMessageText(expectedTopUpMessage);
+    await pulpitPage.expectMoneyValue(`${expectedBalance}`);
   });
 });

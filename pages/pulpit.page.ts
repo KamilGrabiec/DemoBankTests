@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export class PulpitPage {
   transferReceiver: Locator;
@@ -10,6 +10,8 @@ export class PulpitPage {
   topUpAmount: Locator;
   topUpCheckbox: Locator;
   topUpButton: Locator;
+  messageText: Locator;
+  moneyValue: Locator;
 
   constructor(private page: Page) {
     this.transferReceiver = this.page.locator("#widget_1_transfer_receiver");
@@ -23,6 +25,8 @@ export class PulpitPage {
       name: "doładuj telefon",
     });
     this.modalCloseButton = this.page.getByTestId("close-button");
+    this.messageText = this.page.getByTestId("message-text");
+    this.moneyValue = this.page.locator("#money_value");
   }
 
   async transfer(
@@ -46,6 +50,15 @@ export class PulpitPage {
 
   async closeModal() {
     await this.modalCloseButton.click();
+  }
+
+  // Assertions
+  async expectMessageText(expectedText: string) {
+    await expect(this.messageText).toHaveText(expectedText);
+  }
+
+  async expectMoneyValue(expectedValue: string) {
+    await expect(this.moneyValue).toHaveText(expectedValue);
   }
 }
 

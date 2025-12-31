@@ -33,6 +33,6 @@ test.describe("Payment tests", () => {
     );
 
     // Assert
-    await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
+    await paymentPage.messageText(expectedMessage);
   });
 });

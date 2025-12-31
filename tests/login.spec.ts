@@ -18,7 +18,7 @@ test.describe("Login test", () => {
     await loginPage.login(username, password);
 
     // Assert
-    await expect(page.getByTestId("user-name")).toHaveText(expectedUsername);
+    await loginPage.expectUsernameText(expectedUsername);
   });
 
   test("Unsuccessfully login with to short login", async ({ page }) => {
@@ -32,9 +32,7 @@ test.describe("Login test", () => {
     await loginPage.fillLogin(invalidUsername, password);
 
     // Assert
-    await expect(page.getByTestId("error-login-id")).toHaveText(
-      expectedErrorMessage
-    );
+    await loginPage.expectErrorLoginText(expectedErrorMessage);
   });
 
   test("Unsuccessfully login with to short password", async ({ page }) => {
@@ -49,8 +47,6 @@ test.describe("Login test", () => {
     await page.getByTestId("login-input").click();
 
     // Assert
-    await expect(page.getByTestId("error-login-password")).toHaveText(
-      expectedErrorMessage
-    );
+    await loginPage.expectErrorPasswordText(expectedErrorMessage);
   });
 });

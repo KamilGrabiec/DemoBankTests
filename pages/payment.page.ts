@@ -1,20 +1,22 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export class PaymentPage {
   transferReceiver: Locator;
-  trasnferAccount: Locator;
+  transferAccount: Locator;
   transferAmount: Locator;
   confrimButton: Locator;
   closeModalButton: Locator;
+  message: Locator;
 
   constructor(private page: Page) {
     this.transferReceiver = this.page.getByTestId("transfer_receiver");
-    this.trasnferAccount = this.page.getByTestId("form_account_to");
+    this.transferAccount = this.page.getByTestId("form_account_to");
     this.transferAmount = this.page.getByTestId("form_amount");
     this.confrimButton = this.page.getByRole("button", {
       name: "wykonaj przelew",
     });
     this.closeModalButton = this.page.getByTestId("close-button");
+    this.message = this.page.locator("#show_messages");
   }
 
   async makeTransfer(
@@ -23,10 +25,15 @@ export class PaymentPage {
     transferAmount: string
   ) {
     await this.transferReceiver.fill(transferReceiver);
-    await this.trasnferAccount.fill(transferAccount);
+    await this.transferAccount.fill(transferAccount);
     await this.transferAmount.fill(transferAmount);
     await this.confrimButton.click();
     await this.closeModalButton.click();
+  }
+
+  // Assertions
+  async messageText(expectedMessage: string) {
+    await expect(this.message).toHaveText(expectedMessage);
   }
 }
 
