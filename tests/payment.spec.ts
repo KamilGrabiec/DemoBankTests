@@ -31,13 +31,13 @@ test.describe("Payment tests", () => {
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
     // Act
-    await paymentPage.makeTransfer(
+    await paymentPage.executeTransfer(
       transferReceiver,
       transferAccount,
       transferAmount
     );
 
     // Assert
-    await paymentPage.messageText(expectedMessage);
+    await paymentPage.expectMessageText(expectedMessage);
   });
 });

@@ -29,7 +29,7 @@ export class PulpitPage {
     this.moneyValue = this.page.locator("#money_value");
   }
 
-  async transfer(
+  async executeQuickPayment(
     transferReceiver: string,
     transferAccount: string,
     transferTitle: string
@@ -40,7 +40,10 @@ export class PulpitPage {
     await this.transferButton.click();
   }
 
-  async topUp(topUpReceiver: string, topUpAmount: string): Promise<void> {
+  async executeMobileTopUp(
+    topUpReceiver: string,
+    topUpAmount: string
+  ): Promise<void> {
     await this.topUpReceiver.selectOption(topUpReceiver);
     await this.topUpAmount.click();
     await this.topUpAmount.fill(topUpAmount);
