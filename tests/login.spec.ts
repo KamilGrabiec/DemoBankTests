@@ -3,15 +3,17 @@ import { loginData } from "../test-data/login.data";
 import LoginPage from "../pages/login.page";
 
 test.describe("Login test", () => {
+  let loginPage: LoginPage;
+  const username = loginData.username;
+  const password = loginData.password;
+
   test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
     await page.goto("/");
   });
 
   test("Successfully login with correct credentials", async ({ page }) => {
     // Arrange
-    const loginPage = new LoginPage(page);
-    const username = loginData.username;
-    const password = loginData.password;
     const expectedUsername = "Jan Demobankowy";
 
     // Act
@@ -23,9 +25,7 @@ test.describe("Login test", () => {
 
   test("Unsuccessfully login with to short login", async ({ page }) => {
     // Arrange
-    const loginPage = new LoginPage(page);
     const invalidUsername = "short";
-    const password = loginData.password;
     const expectedErrorMessage = "identyfikator ma min. 8 znaków";
 
     // Act
@@ -37,8 +37,6 @@ test.describe("Login test", () => {
 
   test("Unsuccessfully login with to short password", async ({ page }) => {
     // Arrange
-    const loginPage = new LoginPage(page);
-    const username = loginData.username;
     const invalidPassword = "short";
     const expectedErrorMessage = "hasło ma min. 8 znaków";
 

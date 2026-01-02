@@ -4,10 +4,14 @@ import LoginPage from "../pages/login.page";
 import PulpitPage from "../pages/pulpit.page";
 
 test.describe("Send transfer", () => {
+  let pulpitPage: PulpitPage;
+  let loginPage: LoginPage;
+
   test.beforeEach(async ({ page }) => {
+    pulpitPage = new PulpitPage(page);
+    loginPage = new LoginPage(page);
     const username = loginData.username;
     const password = loginData.password;
-    const loginPage = new LoginPage(page);
 
     await page.goto("/");
     await loginPage.login(username, password);
@@ -16,7 +20,6 @@ test.describe("Send transfer", () => {
 
   test("internal transfer", async ({ page }) => {
     //Arrange
-    const pulpitPage = new PulpitPage(page);
     const transferReceiver = "2";
     const transferAmount = "150";
     const transferTitle = "Przelew wewnętrzny";
@@ -33,7 +36,6 @@ test.describe("Send transfer", () => {
 
   test("Successful mobile top-up", async ({ page }) => {
     // Arrange
-    const pulpitPage = new PulpitPage(page);
     const topUpOption = "500 xxx xxx";
     const topUpAmount = "50";
     const expectedTopUpMessage =
@@ -48,7 +50,6 @@ test.describe("Send transfer", () => {
 
   test("Correct balance after successful mobile top-up", async ({ page }) => {
     // Arrange
-    const pulpitPage = new PulpitPage(page);
     const topUpOption = "500 xxx xxx";
     const topUpAmount = "50";
     const expectedTopUpMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpOption}`;

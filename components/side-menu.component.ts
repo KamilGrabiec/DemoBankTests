@@ -7,7 +7,7 @@ export class SideMenuComponent {
     this.paymentButton = this.page.getByRole("link", { name: "płatności" });
   }
 
-  async selectPayment() {
+  async selectPayment(): Promise<void> {
     await this.paymentButton.click();
   }
 }

@@ -23,7 +23,7 @@ export class PaymentPage {
     transferReceiver: string,
     transferAccount: string,
     transferAmount: string
-  ) {
+  ): Promise<void> {
     await this.transferReceiver.fill(transferReceiver);
     await this.transferAccount.fill(transferAccount);
     await this.transferAmount.fill(transferAmount);
@@ -32,7 +32,7 @@ export class PaymentPage {
   }
 
   // Assertions
-  async messageText(expectedMessage: string) {
+  async messageText(expectedMessage: string): Promise<void> {
     await expect(this.message).toHaveText(expectedMessage);
   }
 }
