@@ -4,6 +4,7 @@ import { LoginPage } from "../pages/login.page";
 import { PaymentPage } from "../pages/payment.page";
 
 test.describe("Payment tests", () => {
+  test.describe.configure({ retries: 3 });
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     const userId = loginData.username;
