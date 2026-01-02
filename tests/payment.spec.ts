@@ -2,20 +2,21 @@ import { test, expect } from "@playwright/test";
 import { loginData } from "../test-data/login.data";
 import { LoginPage } from "../pages/login.page";
 import { PaymentPage } from "../pages/payment.page";
+import SideMenuComponent from "../components/side-menu.component";
 
 test.describe("Payment tests", () => {
   test.describe.configure({ retries: 3 });
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const userId = loginData.username;
-    const userPassword = loginData.password;
+    const sideMenu = new SideMenuComponent(page);
+    const username = loginData.username;
+    const password = loginData.password;
 
     await page.goto("/");
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.confirmButton.click();
+    await loginPage.login(username, password);
+    await page.waitForLoadState("domcontentloaded");
 
-    await page.getByRole("link", { name: "płatności" }).click();
+    await sideMenu.selectPayment();
   });
 
   test("simple payment", async ({ page }) => {
