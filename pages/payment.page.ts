@@ -19,7 +19,7 @@ export class PaymentPage {
     this.message = this.page.locator("#show_messages");
   }
 
-  async makeTransfer(
+  async executeTransfer(
     transferReceiver: string,
     transferAccount: string,
     transferAmount: string
@@ -32,7 +32,7 @@ export class PaymentPage {
   }
 
   // Assertions
-  async messageText(expectedMessage: string): Promise<void> {
+  async expectMessageText(expectedMessage: string): Promise<void> {
     await expect(this.message).toHaveText(expectedMessage);
   }
 }
