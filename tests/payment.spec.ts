@@ -5,9 +5,13 @@ import { PaymentPage } from "../pages/payment.page";
 import SideMenuComponent from "../components/side-menu.component";
 
 test.describe("Payment tests", () => {
+  let loginPage: LoginPage;
+  let paymentPage: PaymentPage;
+
   test.describe.configure({ retries: 3 });
   test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+    loginPage = new LoginPage(page);
+    paymentPage = new PaymentPage(page);
     const sideMenu = new SideMenuComponent(page);
     const username = loginData.username;
     const password = loginData.password;
@@ -21,7 +25,6 @@ test.describe("Payment tests", () => {
 
   test("simple payment", async ({ page }) => {
     // Arrange
-    const paymentPage = new PaymentPage(page);
     const transferReceiver = "Jan Nowak";
     const transferAccount = "12 3456 7890 1234 5678 9012 34568";
     const transferAmount = "222";
