@@ -12,39 +12,51 @@ test.describe("Login test", () => {
     await page.goto("/");
   });
 
-  test("Successfully login with correct credentials", async ({ page }) => {
-    // Arrange
-    const expectedUsername = "Jan Demobankowy";
+  test(
+    "Successfully login with correct credentials",
+    { tag: ["@login"] },
+    async ({ page }) => {
+      // Arrange
+      const expectedUsername = "Jan Demobankowy";
 
-    // Act
-    await loginPage.login(username, password);
+      // Act
+      await loginPage.login(username, password);
 
-    // Assert
-    await loginPage.expectUsernameText(expectedUsername);
-  });
+      // Assert
+      await loginPage.expectUsernameText(expectedUsername);
+    }
+  );
 
-  test("Unsuccessfully login with to short login", async ({ page }) => {
-    // Arrange
-    const invalidUsername = "short";
-    const expectedErrorMessage = "identyfikator ma min. 8 znaków";
+  test(
+    "Unsuccessfully login with to short login",
+    { tag: ["@login", "@unhappy_path"] },
+    async ({ page }) => {
+      // Arrange
+      const invalidUsername = "short";
+      const expectedErrorMessage = "identyfikator ma min. 8 znaków";
 
-    // Act
-    await loginPage.fillLogin(invalidUsername, password);
+      // Act
+      await loginPage.fillLogin(invalidUsername, password);
 
-    // Assert
-    await loginPage.expectErrorLoginText(expectedErrorMessage);
-  });
+      // Assert
+      await loginPage.expectErrorLoginText(expectedErrorMessage);
+    }
+  );
 
-  test("Unsuccessfully login with to short password", async ({ page }) => {
-    // Arrange
-    const invalidPassword = "short";
-    const expectedErrorMessage = "hasło ma min. 8 znaków";
+  test(
+    "Unsuccessfully login with to short password",
+    { tag: ["@login", "@unhappy_path"] },
+    async ({ page }) => {
+      // Arrange
+      const invalidPassword = "short";
+      const expectedErrorMessage = "hasło ma min. 8 znaków";
 
-    // Act
-    await loginPage.fillLogin(username, invalidPassword);
-    await page.getByTestId("login-input").click();
+      // Act
+      await loginPage.fillLogin(username, invalidPassword);
+      await page.getByTestId("login-input").click();
 
-    // Assert
-    await loginPage.expectErrorPasswordText(expectedErrorMessage);
-  });
+      // Assert
+      await loginPage.expectErrorPasswordText(expectedErrorMessage);
+    }
+  );
 });

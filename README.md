@@ -15,6 +15,8 @@
   `npx playwright codegen https://demo-bank.vercel.app/`
 - run tests without browser GUI:  
   `npx playwright test`
+- run tests for specific tag:  
+  `npx playwright tes --grep "@login"`
 - run tests multiple times:  
   `npx playwright test --repeat-each=10`
 - run tests repeate if test failed:  

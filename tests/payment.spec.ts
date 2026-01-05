@@ -23,21 +23,31 @@ test.describe("Payment tests", () => {
     await sideMenu.selectPayment();
   });
 
-  test("simple payment", async ({ page }) => {
-    // Arrange
-    const transferReceiver = "Jan Nowak";
-    const transferAccount = "12 3456 7890 1234 5678 9012 34568";
-    const transferAmount = "222";
-    const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
+  test(
+    "simple payment",
+    {
+      tag: ["@payment"],
+      annotation: {
+        type: "documentation",
+        description: "https://jaktestowac.pl/course/playwright-wprowadzenie/",
+      },
+    },
+    async ({ page }) => {
+      // Arrange
+      const transferReceiver = "Jan Nowak";
+      const transferAccount = "12 3456 7890 1234 5678 9012 34568";
+      const transferAmount = "222";
+      const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
-    // Act
-    await paymentPage.executeTransfer(
-      transferReceiver,
-      transferAccount,
-      transferAmount
-    );
+      // Act
+      await paymentPage.executeTransfer(
+        transferReceiver,
+        transferAccount,
+        transferAmount
+      );
 
-    // Assert
-    await paymentPage.expectMessageText(expectedMessage);
-  });
+      // Assert
+      await paymentPage.expectMessageText(expectedMessage);
+    }
+  );
 });
