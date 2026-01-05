@@ -18,27 +18,34 @@ test.describe("Send transfer", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("internal transfer", async ({ page }) => {
-    //Arrange
-    const transferReceiver = "2";
-    const transferAmount = "150";
-    const transferTitle = "Przelew wewnętrzny";
-    const expectedString =
-      "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny";
+  test(
+    "internal transfer",
+    {
+      tag: ["@pulpit", "@payment"],
+      annotation: { type: "P1", description: "TC01.03" },
+    },
+    async ({ page }) => {
+      //Arrange
+      const transferReceiver = "2";
+      const transferAmount = "150";
+      const transferTitle = "Przelew wewnętrzny";
+      const expectedString =
+        "Przelew wykonany! Chuck Demobankowy - 150,00PLN - Przelew wewnętrzny";
 
-    // Act
-    await pulpitPage.executeQuickPayment(
-      transferReceiver,
-      transferAmount,
-      transferTitle
-    );
-    await pulpitPage.closeModal();
+      // Act
+      await pulpitPage.executeQuickPayment(
+        transferReceiver,
+        transferAmount,
+        transferTitle
+      );
+      await pulpitPage.closeModal();
 
-    // Assert
-    await pulpitPage.expectMessageText(expectedString);
-  });
+      // Assert
+      await pulpitPage.expectMessageText(expectedString);
+    }
+  );
 
-  test("Successful mobile top-up", async ({ page }) => {
+  test("Successful mobile top-up", { tag: ["@pulpit"] }, async ({ page }) => {
     // Arrange
     const topUpOption = "500 xxx xxx";
     const topUpAmount = "50";
@@ -52,19 +59,23 @@ test.describe("Send transfer", () => {
     await pulpitPage.expectMessageText(expectedTopUpMessage);
   });
 
-  test("Correct balance after successful mobile top-up", async ({ page }) => {
-    // Arrange
-    const topUpOption = "500 xxx xxx";
-    const topUpAmount = "50";
-    const expectedTopUpMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpOption}`;
-    const initialBalance = await page.locator("#money_value").innerText();
-    const expectedBalance = Number(initialBalance) - Number(topUpAmount);
+  test(
+    "Correct balance after successful mobile top-up",
+    { tag: ["@pulpit"] },
+    async ({ page }) => {
+      // Arrange
+      const topUpOption = "500 xxx xxx";
+      const topUpAmount = "50";
+      const expectedTopUpMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpOption}`;
+      const initialBalance = await page.locator("#money_value").innerText();
+      const expectedBalance = Number(initialBalance) - Number(topUpAmount);
 
-    // Act
-    await pulpitPage.executeMobileTopUp(topUpOption, topUpAmount);
+      // Act
+      await pulpitPage.executeMobileTopUp(topUpOption, topUpAmount);
 
-    // Assert
-    await pulpitPage.expectMessageText(expectedTopUpMessage);
-    await pulpitPage.expectMoneyValue(`${expectedBalance}`);
-  });
+      // Assert
+      await pulpitPage.expectMessageText(expectedTopUpMessage);
+      await pulpitPage.expectMoneyValue(`${expectedBalance}`);
+    }
+  );
 });
